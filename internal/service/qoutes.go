@@ -86,7 +86,7 @@ func (s *QuotesService) Start(ctx context.Context) error {
 }
 
 func (s *QuotesService) workerGrabber(ctx context.Context) {
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(1 * time.Minute)
 
 	defer s.wg.Done()
 	defer ticker.Stop()

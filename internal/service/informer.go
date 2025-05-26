@@ -7,6 +7,7 @@ func (s *QuotesService) informer(ctx context.Context) {
 		select {
 		case quote, ok := <-s.updatesChan:
 			if !ok {
+				s.logger.Warn("Updates channel closed")
 				return
 			}
 			s.logger.Infof("UPDATE | %s | Price: %.2f | 24h Volume: %.2f | Last: %.2f",

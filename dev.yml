@@ -1,0 +1,34 @@
+http:
+  port: 8080
+  read_timeout: 10s
+  write_timeout: 10s
+  shutdown_timeout: 5s
+
+postgres:
+  host: "postgres"
+  port: 5432
+  user: "user"
+  password: "123456"
+  db: "postgres"
+  ssl_mode: "disable"
+
+auth:
+  user: "admin"
+  password: "password"
+
+blockchain:
+  url: "https://api.blockchain.com/v3/exchange/tickers"
+
+quotes:
+  - "BTC-USD"
+  - "ETH-USD"
+  - "BTC-TRY"
+  - "ETH-TRY"
+  - "BTC-GBP"
+  - "ETH-GBP"
+  - "BTC-EUR"
+  - "ETH-EUR"
+  - "BTC-USDT"
+  - "ETH-USDT"
+
+

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"os"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -25,6 +26,9 @@ func New() (*Config, error) {
 	viper.SetConfigFile(pathConfigFile)
 	viper.SetConfigType(configType)
 
+	if err := viper.ReadInConfig(); err != nil {
+		return nil, err
+	}
 	viper.BindEnv("blockchain.url", "BLOCKCHAIN_URL")
 	viper.BindEnv("postgres.host", "POSTGRES_HOST")
 	viper.BindEnv("postgres.user", "POSTGRES_USER")
@@ -32,10 +36,9 @@ func New() (*Config, error) {
 	viper.BindEnv("postgres.db", "POSTGRES_DB")
 	viper.BindEnv("postgres.ssl_mode", "POSTGRES_SSLMODE")
 
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
+	if raw := os.Getenv("QUOTES"); raw != "" {
+		viper.Set("quotes", strings.Split(raw, ","))
 	}
-
 	return &Config{
 		HTTP:          newHTTPServer(),
 		Postgres:      newPostgres(),

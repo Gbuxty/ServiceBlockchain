@@ -1,6 +1,8 @@
 package config
 
 import (
+	"strings"
+
 	"github.com/spf13/viper"
 )
 
@@ -20,11 +22,11 @@ type Config struct {
 func New() (*Config, error) {
 	viper.SetConfigFile(pathConfigFile)
 	viper.SetConfigType(configType)
-	viper.AutomaticEnv()
 
-	viper.SetDefault("postgres.host", "postgres")
-	viper.BindEnv("postgres.host", "POSTGRES_HOST")
-	viper.BindEnv("postgres.ssl_mode", "POSTGRES_SSLMODE")
+	
+
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err

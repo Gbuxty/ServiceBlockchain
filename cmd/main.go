@@ -2,7 +2,7 @@ package main
 
 import (
 	"BlockchainCurrency/config"
-	"BlockchainCurrency/internal/adapter/blockchain"
+	bc "BlockchainCurrency/internal/adapter/blockchain"
 	"BlockchainCurrency/internal/adapter/repository"
 	"BlockchainCurrency/internal/service"
 	"BlockchainCurrency/internal/transport/http/handlers"
@@ -39,7 +39,6 @@ func run() error {
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
-
 	db, err := pgdb.ConnectToDB(ctx, cfg.Postgres.ToDSN())
 	if err != nil {
 		logger.Errorf("connect to db", err)
@@ -56,7 +55,7 @@ func run() error {
 	}
 	quotesCache := repository.NewQuotesCache()
 	quotesPostgres := repository.NewQuotesRepository(db)
-	blockchainAPI := bc.NewBclockchain(cfg)
+	blockchainAPI := bc.NewBclockchain(cfg, logger)
 	quotesService := service.NewQuotesService(logger, cfg, quotesPostgres, blockchainAPI, quotesCache)
 	quotesService.Start(ctx)
 

@@ -1,6 +1,8 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
 const (
 	pathConfigFile = "dev.yml"
@@ -19,6 +21,10 @@ func New() (*Config, error) {
 	viper.SetConfigFile(pathConfigFile)
 	viper.SetConfigType(configType)
 	viper.AutomaticEnv()
+
+	viper.SetDefault("postgres.host", "postgres")
+	viper.BindEnv("postgres.host", "POSTGRES_HOST")
+	viper.BindEnv("postgres.ssl_mode", "POSTGRES_SSLMODE")
 
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
